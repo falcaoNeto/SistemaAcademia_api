@@ -14,4 +14,3 @@ def CadastrarInstrutor():
     grau_academico = request.form.get('grau_academico')
 
     instrutor = Instrutor(nit, grau_academico)
-    instrutor.CadastrarInstrutor()

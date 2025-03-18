@@ -4,11 +4,6 @@ from models.endereco import Endereco
 
 aluno_route = Blueprint('aluno', __name__)
 
-@aluno_route.route('/FormCadastrarAluno')
-def FormCadastrarAluno():
-    return 'FormCadastrarAluno'
-
-
 @aluno_route.route('/CadastrarAluno', methods=['POST'])
 def CadastrarAluno():
         matricula = request.form.get('matricula')
@@ -25,20 +20,7 @@ def CadastrarAluno():
         cidade = request.form.get('cidade')
 
         endereco = Endereco(logradouro, cep, rua, num_casa, bairro, cidade)
-        id_endereco = endereco.CadastrarEndereco()
-
         aluno = Aluno(matricula, nome, data_nascimento, cpf, email, telefone, id_endereco)
-        aluno.CadastrarAluno()
-
-        return
-
-
-#-------------------------------------------------------------
-
-@aluno_route.route('/FormAtualizarAluno')
-def FormAtualizarAluno():
-    return 'FormAtualizarAluno'
-
 
 @aluno_route.route('/AtualizarAluno', methods=['PUT'])
 def AtualizarAluno():
@@ -53,16 +35,9 @@ def AtualizarAluno():
     aluno.AtualizarAluno()
 
 
-#-------------------------------------------------------------
-
-
 @aluno_route.route('/DeletarAluno', methods=['POST'])
 def DeletarAluno():
     return 'DeletarAluno'
-
-
-
-#-------------------------------------------------------------
 
 @aluno_route.route('/ListarAluno', methods=['POST'])
 def ListarAluno():

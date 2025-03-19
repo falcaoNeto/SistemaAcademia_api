@@ -1,44 +1,57 @@
-from flask import Blueprint, request
-from models.aluno import Aluno
-from models.endereco import Endereco
+from dataclasses import dataclass
+from BD.bd import engine
+from sqlalchemy.orm import sessionmaker
 
-aluno_route = Blueprint('aluno', __name__)
+@dataclass
+class Aluno:
+    matricula: int
+    nome: str
+    data_nascimento: str
+    cpf: str
+    email: str
+    telefone: str
+    id_endereco: int
 
-@aluno_route.route('/CadastrarAluno', methods=['POST'])
-def CadastrarAluno():
-        matricula = request.form.get('matricula')
-        nome = request.form.get('nome')
-        data_nascimento = request.form.get('data_nascimento')
-        cpf = request.form.get('cpf')
-        email = request.form.get('email')
-        telefone = request.form.get('telefone')
-        logradouro = request.form.get('logradouro')
-        cep = request.form.get('cep')
-        rua = request.form.get('rua')
-        num_casa = request.form.get('num_casa')
-        bairro = request.form.get('bairro')
-        cidade = request.form.get('cidade')
-
-        endereco = Endereco(logradouro, cep, rua, num_casa, bairro, cidade)
-        aluno = Aluno(matricula, nome, data_nascimento, cpf, email, telefone, id_endereco)
-
-@aluno_route.route('/AtualizarAluno', methods=['PUT'])
-def AtualizarAluno():
-    matricula = request.form.get('matricula')
-    nome = request.form.get('nome')
-    data_nascimento = request.form.get('data_nascimento')
-    cpf = request.form.get('cpf')
-    email = request.form.get('email')
-    telefone = request.form.get('telefone')
-
-    aluno = Aluno(matricula, nome, data_nascimento, cpf, email, telefone)
-    aluno.AtualizarAluno()
+    def CadastrarAluno(self):
+        try:
+            SessionLocal = sessionmaker(bind=engine)
+            session = SessionLocal()
+            session.execute(f'INSERT INTO Aluno (matricula, nome, data_nascimento, cpf, email, telefone)
+            VALUES ({self.matricula}, "{self.nome}", "{self.data_nascimento}", "{self.cpf}", "{self.email}", "{self.telefone}", "{self.id_endereco}")
+            Returning id_endereco')
+            id_endereco = session.scalar()
+            session.commit()
+            return id_endereco
+        except:
+            return False
+        finally:
+            session.close()
 
 
-@aluno_route.route('/DeletarAluno', methods=['POST'])
-def DeletarAluno():
-    return 'DeletarAluno'
+    def AtualizarAluno(self):
+        try:
+            SessionLocal = sessionmaker(bind=engine)
+            session = SessionLocal()
+            session.execute(f'UPDATE Aluno SET
+            nome = "{self.nome}", data_nascimento = "{self.data_nascimento}", 
+            cpf = "{self.cpf}", email = "{self.email}", telefone = "{self.telefone}" WHERE id_aluno = {self.matricula}')
+            session.commit()
+            return True
+        except:
+            return False
+        finally:
+            session.close()
+            
 
-@aluno_route.route('/ListarAluno', methods=['POST'])
-def ListarAluno():
-    return 'ListarAluno'
+    def ExcluirAluno(self, matricula):
+        try:
+            SessionLocal = sessionmaker(bind=engine)
+            session = SessionLocal()
+            session.execute(f'DELETE FROM Aluno WHERE id_aluno = {matricula}')
+            session.commit()
+            return True
+        except:
+            return False
+        finally:
+            session.close()
+            

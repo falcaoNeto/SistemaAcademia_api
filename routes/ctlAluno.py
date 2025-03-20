@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 from BD.bd import engine
 from sqlalchemy.orm import sessionmaker
-
+"""
 @dataclass
 class Aluno:
     matricula: int
@@ -54,4 +54,4 @@ class Aluno:
             return False
         finally:
             session.close()
-            
+"""

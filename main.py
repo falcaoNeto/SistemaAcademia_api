@@ -1,8 +1,8 @@
 from flask import Flask, request, jsonify, session
-from flask_jwt_extended import JWTManager
-from routes.ctlAluno import aluno_route
+#from routes.ctlAluno import aluno_route
 from routes.Auth import auth
 from flask_cors import CORS
+import os
 from dotenv import load_dotenv
 
 app = Flask(__name__)

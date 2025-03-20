@@ -3,11 +3,9 @@ import os
 from dotenv import load_dotenv
 
 load_dotenv()
-
+HOST = os.getenv("HOST")
 PASSWORD = os.getenv("PASSWORD_BD")
-
-DATABASE_URL = f"postgresql://postgres:{PASSWORD}@tramway.proxy.rlwy.net:15822/railway"
-
+DATABASE_URL = f"postgresql://postgres:{PASSWORD}@{HOST}"
 engine = create_engine(DATABASE_URL)
 
 if __name__ == '__main__':

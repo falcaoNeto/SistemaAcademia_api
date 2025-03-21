@@ -1,7 +1,7 @@
 from BD.bd import engine
 from dataclasses import dataclass
 from sqlalchemy.orm import sessionmaker
-
+from sqlalchemy.sql import text
 @dataclass
 class Endereco:
     logradouro: str
@@ -15,11 +15,41 @@ class Endereco:
         try:
             sessionLocal = sessionmaker(bind=engine)
             session = sessionLocal()
-            session.execute(f'INSERT INTO endereco (logradouro, cep, rua, num_casa, bairro, cidade)
-            VALUES ("{self.logradouro}", "{self.cep}", "{self.rua}", "{self.num_casa}", "{self.bairro}", "{self.cidade}")')
+            query = text("""INSERT INTO mydb.endereco (logradouro, cep, rua, num_casa, bairro, cidade)
+            VALUES (:logradouro, :cep, :rua, :num_casa, :bairro, :cidade)
+            RETURNING id_endereco""")
+            params = {
+                "logradouro": self.logradouro,
+                "cep": self.cep,
+                "rua": self.rua,
+                "num_casa": self.num_casa,
+                "bairro": self.bairro,
+                "cidade": self.cidade
+            }
+            result = session.execute(query, params)
+            id_endereco = result.fetchone()[0]
             session.commit()
-            return True
-        except:
-            return False
+            return id_endereco
+        except Exception as e:
+            return str(e)
         finally:
             session.close()
+
+    
+    def GetEndereco(self, id_endereco):
+        try:
+            sessionLocal = sessionmaker(bind=engine)
+            session = sessionLocal()
+            query = text("""SELECT * FROM mydb.endereco WHERE id_endereco = :id_endereco""")
+            params = {
+                "id_endereco": id_endereco
+            }
+            result = session.execute(query, params)
+            endereco = result.fetchall()
+            session.commit()
+            return endereco
+        except Exception as e:
+            return str(e)
+        finally:
+            session.close()
+    

@@ -10,3 +10,4 @@ class Funcionario:
     cpf: str
     email: str
     telefone: str
+    id_endereco: int

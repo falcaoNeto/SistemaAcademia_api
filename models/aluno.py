@@ -41,7 +41,7 @@ class Aluno:
         finally:
             session.close()
 
-
+    # Ver se id_aluno está correto na tabela aluno
     def AtualizarAluno(self):
         try:
             SessionLocal = sessionmaker(bind=engine)

@@ -20,6 +20,14 @@ def CadastrarInstrutor():
     endereco = Endereco(logradouro, cep, rua, num_casa, bairro, cidade)
     id_endereco = endereco.CadastrarEndereco()
 
+    user = data.get('user')
+    passwd = data.get('passwd')
+    login1 = Login()
+    login1.user = user
+    login1.password = passwd
+    login1.is_adm = True
+    login1.CadastrarUser()
+
     if id_endereco:
         nit = data.get('nit')
         nome = data.get('nome')

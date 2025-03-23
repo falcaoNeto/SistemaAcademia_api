@@ -3,6 +3,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from sqlalchemy.orm import sessionmaker
 from BD.bd import engine
 from sqlalchemy.sql import text
+from models.login import Login
 
 auth = Blueprint('auth', __name__)
 
@@ -26,6 +27,7 @@ def login():
 def logout():
     session.pop('user', None)
     return jsonify({'message': 'Logoff bem-sucedido'}), 200
+
 
 @auth.route('/session', methods=['GET'])
 def get_session():

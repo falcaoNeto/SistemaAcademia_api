@@ -72,6 +72,7 @@ class Aula:
             return result.fetchall()
         except Exception as e:
             print(f"Erro: {e}")
+            session.rollback()
             return False
         finally:
             session.close()

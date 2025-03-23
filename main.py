@@ -1,5 +1,5 @@
 from flask import Flask
-from routes.Auth import auth
+from routes.ctlLogin import login_route
 from routes.ctlAluno import aluno_route
 from routes.ctlPlano import plano_route
 from routes.ctlAula import aula_route
@@ -17,7 +17,7 @@ load_dotenv()
 app.secret_key = os.getenv("SECRET_KEY")
 CORS(app, supports_credentials=True)
 
-app.register_blueprint(auth)
+app.register_blueprint(login_route)
 app.register_blueprint(aluno_route)
 app.register_blueprint(plano_route)
 app.register_blueprint(aula_route)

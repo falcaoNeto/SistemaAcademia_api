@@ -29,6 +29,7 @@ class Plano:
             return True
         except Exception as e:
             print(f"Erro: {e}")
+            session.rollback()
             return False
         finally:
             session.close()
@@ -45,6 +46,7 @@ class Plano:
             return result.fetchall()
         except Exception as e:
             print(f"Erro: {e}")
+            session.rollback()
             return False
         finally:
             session.close()

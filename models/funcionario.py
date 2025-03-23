@@ -1,6 +1,4 @@
-from BD.bd import engine
 from dataclasses import dataclass
-from sqlalchemy.orm import sessionmaker
 
 @dataclass
 class Funcionario:
@@ -11,3 +9,4 @@ class Funcionario:
     email: str
     telefone: str
     id_endereco: int
+    id_usuario: int
